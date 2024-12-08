@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bogdan-test-gem (0.1.3)
+    bogdan-test-gem (0.1.4)
 
 GEM
   remote: https://rubygems.org/
