@@ -16,65 +16,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository
+
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Read the version from the gem's version file
-    - name: Extract Gem Version
-      id: extract_version
-      run: |
-        VERSION_FILE="lib/bogdan/test/gem/version.rb"
-        if [ ! -f "$VERSION_FILE" ]; then
-          echo "Version file not found!"
-          exit 1
-        fi
-
-        # Extract the version number
-        VERSION=$(grep -Eo 'VERSION\s*=\s*["'\''][0-9]+\.[0-9]+\.[0-9]+["'\'']' "$VERSION_FILE" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-        if [ -z "$VERSION" ]; then
-          echo "Could not extract version from $VERSION_FILE"
-          exit 1
-        fi
-
-        echo "Version: $VERSION"
-        echo "gem_version=$VERSION" >> $GITHUB_ENV
-
-    # Set up Ruby
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.1' # Adjust to your gem's required Ruby version
+        ruby-version: '3.3.4'
 
-    # Install dependencies
+    - name: Extract Gem Version
+      id: extract_version
+      run: |
+        VERSION=$(./version.sh)
+        echo "Version: $VERSION"
+        echo "gem_version=$VERSION" >> $GITHUB_ENV
+
     - name: Install dependencies
       run: bundle install
 
-    # Build the gem
+    - name: Extract Changelog
+      run: ./changelog.sh
+
     - name: Build the gem
       run: gem build *.gemspec
 
-    # Tag the version
     - name: Tag the release version
       run: |
-        git tag "v${{ env.gem_version }}"
+        git tag "v${{ env.gem_version }}" || echo "Tag already exists."
         git push origin "v${{ env.gem_version }}"
 
-    # Publish to RubyGems with OTP
     - name: Publish to RubyGems
       env:
         GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
       run: |
         gem push *.gem --otp ${{ github.event.inputs.otp_code }}
 
-    # Create a GitHub release
     - name: Create GitHub Release
       uses: actions/create-release@v1
       with:
         tag_name: "v${{ env.gem_version }}"
         release_name: "v${{ env.gem_version }}"
-        body: |
-          Automatically published via GitHub Actions.
+        body_path: ./release_changelog.md
         draft: false
         prerelease: false
       env:
