@@ -31,7 +31,7 @@ jobs:
     # Publish to RubyGems
     - name: Publish to RubyGems
       env:
-        RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
       run: gem push *.gem
 
     # Create a GitHub release
