@@ -1,11 +1,12 @@
 PATH
   remote: .
   specs:
-    bogdan-test-gem (0.1.0)
+    bogdan-test-gem (0.1.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    bump (0.10.0)
     diff-lcs (1.5.1)
     rake (13.2.1)
     rspec (3.13.0)
@@ -28,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   bogdan-test-gem!
+  bump (~> 0.10.0)
   rake (~> 13.0)
   rspec (~> 3.0)
 
