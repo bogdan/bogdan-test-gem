@@ -72,7 +72,7 @@ jobs:
       uses: actions/create-release@v1
       with:
         tag_name: "v${{ env.gem_version }}"
-        release_name: "Release v${{ env.gem_version }}"
+        release_name: "v${{ env.gem_version }}"
         body: |
           Automatically published via GitHub Actions.
         draft: false
