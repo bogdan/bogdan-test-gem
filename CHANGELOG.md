@@ -1,6 +1,6 @@
 ## [Unreleased]
 
-## [0.1.5]
+## [0.1.6]
 
 * Add banner configuration option:
 
