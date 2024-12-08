@@ -1,3 +1,5 @@
+VERSION=$(./version.sh)
+
 if [ ! -f "CHANGELOG.md" ]; then
   echo "CHANGELOG.md file not found!"
   exit 1
