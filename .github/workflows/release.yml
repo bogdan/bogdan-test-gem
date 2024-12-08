@@ -28,7 +28,7 @@ jobs:
     - name: Extract Gem Version
       id: extract_version
       run: |
-        VERSION=$(./version.sh)
+        VERSION=$(./.github/workflows/scripts/version.sh)
         echo "Version: $VERSION"
         echo "gem_version=$VERSION" >> $GITHUB_ENV
 
@@ -36,13 +36,13 @@ jobs:
       run: bundle install
 
     - name: Extract Changelog
-      run: ./changelog.sh
+      run: ./.github/workflows/scripts/changelog.sh
 
     - name: Build the gem
       run: gem build *.gemspec
 
     - name: Tag the release version
-      run: ./tag.sh
+      run: ./.github/workflows/scripts/tag.sh
 
     - name: Publish to RubyGems
       env:
