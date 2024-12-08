@@ -1,3 +1,7 @@
+#!/bin/sh
+
+set -e
+
 VERSION_FILE="lib/bogdan/test/gem/version.rb"
 if [ ! -f "$VERSION_FILE" ]; then
   echo "Version file not found!"

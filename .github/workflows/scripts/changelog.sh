@@ -1,3 +1,7 @@
+#!/bin/sh
+
+set -e 
+
 CHANGELOG="CHANGELOG.md"
 OUTPUT="./release_changelog.md"
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
